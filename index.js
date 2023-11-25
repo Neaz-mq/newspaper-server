@@ -35,6 +35,11 @@ async function run() {
 
     const publisherCollection = client.db('newsDB').collection('publishers');
 
+    const userCollection = client.db('newsDB').collection('user');
+
+    const articleCollection = client.db('newsDB').collection('article');
+
+
     app.get('/publishers', async (req, res) => {
       const cursor = publisherCollection.find();
       const result = await cursor.toArray();
@@ -42,6 +47,40 @@ async function run() {
 
     })
 
+
+
+     // user related apis
+
+     app.get('/user', async (req, res) => {
+      const cursor = userCollection.find();
+      const users = await cursor.toArray();
+      res.send(users)
+
+    })
+    app.post('/user', async (req, res) => {
+      const user = req.body;
+      console.log(user);
+      const result = await userCollection.insertOne(user);
+      res.send(result);
+    })
+
+
+    // article
+
+    app.post('/article', async (req, res) => {
+      const newArticle = req.body;
+      console.log(newArticle);
+      const result = await articleCollection.insertOne(newArticle);
+      res.send(result);
+
+    })
+
+    app.get('/article', async (req, res) => {
+      const cursor = articleCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+
+    })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
