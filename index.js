@@ -47,6 +47,14 @@ async function run() {
 
     })
 
+    app.post('/publishers', async (req, res) => {
+      const newPublisher = req.body;
+      console.log(newPublisher);
+      const result = await publisherCollection.insertOne(newPublisher);
+      res.send(result);
+
+    })
+
 
 
      // user related apis
