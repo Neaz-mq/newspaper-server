@@ -16,7 +16,7 @@ app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.0zyo6s3.mongodb.net/?retryWrites=true&w=majority`;
 
-console.log(uri);
+
 
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -39,6 +39,11 @@ async function run() {
 
     const articleCollection = client.db('newsDB').collection('article');
 
+    const premiumCollection = client.db('newsDB').collection('premiums');
+
+
+
+    //publishers
 
     app.get('/publishers', async (req, res) => {
       const cursor = publisherCollection.find();
@@ -100,6 +105,14 @@ async function run() {
     })
 
 
+    // Premium
+
+    app.get('/premiums', async (req, res) => {
+      const cursor = premiumCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+
+    })
 
   
 
